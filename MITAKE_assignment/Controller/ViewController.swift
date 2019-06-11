@@ -16,6 +16,10 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var volumeView: UIView!
     
+    @IBOutlet weak var volumeLabelView: UIView!
+    
+    @IBOutlet weak var timeView: UIView!
+    
     @IBOutlet weak var tpLabel: UILabel!
     
     @IBOutlet weak var cLabel: UILabel!
@@ -67,11 +71,17 @@ class ViewController: UIViewController {
         
         arrayV = trendManager.arrayV
         
-        drawSquare()
+        drawTrendSquare()
+        
+        drawVolumeSquare()
 
         drawTrend()
         
         addPriceLabel()
+
+        addVolumeLabel()
+        
+        addTimeLabel()
         
         drawVolume()
         
@@ -287,7 +297,7 @@ class ViewController: UIViewController {
         
     }
     
-    func drawSquare() {
+    func drawTrendSquare() {
         
         guard let startTime = arrayT.first,
             let endTime = arrayT.last else { return }
@@ -422,5 +432,134 @@ class ViewController: UIViewController {
         
     }
     
+    func drawVolumeSquare() {
+        
+        guard let startTime = arrayT.first,
+            let endTime = arrayT.last else { return }
+        
+        let section = (endTime - startTime + 1)/60
+        
+        let squarePath = UIBezierPath()
+        
+        let squareLayer = CAShapeLayer()
+        
+        //Draw border
+        squarePath.move(to: CGPoint(x: 0, y: 0))
+        
+        squarePath.addLine(to: CGPoint(x: volumeView.bounds.width, y: 0))
+        
+        squarePath.addLine(to: CGPoint(x: volumeView.bounds.width, y: volumeView.bounds.height))
+        
+        squarePath.addLine(to: CGPoint(x: 0, y: volumeView.bounds.height))
+        
+        squarePath.close()
+        
+        //垂直線
+        for i in 1...section {
+            
+            let x = 60 * i
+            
+            squarePath.move(to: CGPoint(x: x, y: 0))
+            
+            squarePath.addLine(to: CGPoint(x: CGFloat(x), y: volumeView.bounds.height))
+            
+        }
+        
+        //水平線
+        for i in 1...2 {
+            
+            let y = Int(volumeView.bounds.height/3) * i
+            
+            squarePath.move(to: CGPoint(x: 0, y: y))
+            
+            squarePath.addLine(to: CGPoint(x: volumeView.bounds.width, y: CGFloat(y)))
+            
+            
+        }
+        
+        squareLayer.path = squarePath.cgPath
+        
+        squareLayer.strokeColor = UIColor.lightGray.withAlphaComponent(0.3).cgColor
+        
+        squareLayer.lineWidth = 1
+        
+        squareLayer.backgroundColor = UIColor.clear.cgColor
+        
+        volumeView.layer.addSublayer(squareLayer)
+        
+    }
+    
+    func addVolumeLabel() {
+        
+        guard let maxV = arrayV.max() else { return }
+        
+        for i in 1...3 {
+            
+            let height = volumeLabelView.bounds.height/3
+            
+            let label = UILabel(frame: CGRect(x: 0,
+                                               y: 0 + Int(height) * (i - 1) - 10,
+                                               width: Int(volumeLabelView.bounds.width),
+                                               height: 20))
+            
+            label.textColor = UIColor.white
+            
+            label.font = UIFont(name: ".SFUIText", size: 13)
+            
+            var v = (maxV/3) * (4 - i)
+            
+            if i == 1 {
+                
+                v = maxV
+            }
+            
+            label.text = "\(v)"
+            
+            volumeLabelView.addSubview(label)
+            
+        }
+        
+    }
+    
+    func addTimeLabel() {
+        
+        guard let start = arrayT.first,
+            let end = arrayT.last,
+            let st = trend?.root.st else { return }
+        
+        guard let stTime = Int(st) else { return }
+        
+        var startTime = (stTime % 10000)/100
+        
+        let section = (end - start)/60
+        
+        let xRatio = Double(timeView.bounds.width)/Double(end - start + 1)
+        
+        for i in 0...section {
+            
+            let x = Int(xRatio * 60) * i
+            
+            let label = UILabel(frame: CGRect(x: 0 + x, y: 0, width: 40, height: 20))
+            
+            label.textColor = UIColor.white
+            
+            label.font = UIFont(name: ".SFUIText", size: 15)
+            
+            if startTime < 10 {
+                
+                label.text = "0\(startTime)"
+                
+            } else {
+                
+                label.text = "\(startTime)"
+            }
+            
+            startTime += 1
+            
+            timeView.addSubview(label)
+        }
+        
+    }
+
 }
 
