@@ -55,9 +55,19 @@ class ViewController: UIViewController {
     
     func drawTrend() {
        
-        let layer = CAShapeLayer()
+        let redLayer = CAShapeLayer()
+        
+        let yellowLayer = CAShapeLayer()
+        
+        let greenLayer = CAShapeLayer()
         
         let trendPath = UIBezierPath()
+        
+        let redPath = UIBezierPath()
+        
+        let yellowPath = UIBezierPath()
+        
+        let greenPath = UIBezierPath()
         
         if let trend = trend {
             
@@ -74,32 +84,114 @@ class ViewController: UIViewController {
             trendPath.move(to: CGPoint(x: 0, y: Double(trendView.bounds.height/2)))
             
             for i in 0..<array.count {
-            
-                trendPath.addLine(to: CGPoint(x: Double(trend.root.tick[i].t)! , y: Double(trendView.bounds.height/2) - array[i]))
+                
+                //MOVE Path
+                if i == 0 {
+                
+                    if array[i] > 0.0 {
+                        
+                        redPath.move(to: CGPoint(x: 0, y: Double(trendView.bounds.height/2)))
+                        
+                    } else if array[i] == 0.0 {
+                        
+                        yellowPath.move(to: CGPoint(x: 0, y: Double(trendView.bounds.height/2)))
+                        
+                    } else {
+                        
+                        greenPath.move(to: CGPoint(x: 0, y: Double(trendView.bounds.height/2)))
+                        
+                    }
+                  
+                //MOVE Path again
+                } else if i != 0 && array[i - 1] * array[i] < 0.0 {
+                   
+                    if array[i] > 0.0 {
+                        
+                        redPath.move(to: CGPoint(x: Double(i), y: Double(trendView.bounds.height/2)))
+                        
+                    } else {
+                        
+                        greenPath.move(to: CGPoint(x: Double(i), y: Double(trendView.bounds.height/2)))
+                    }
+                    
+                } else if i != 0 && array[i - 1] * array[i] == 0.0 {
+                    
+                    if array[i] == 0 && array[i-1] != 0.0 {
+                        
+                        yellowPath.move(to: CGPoint(x: Double(i), y: Double(trendView.bounds.height/2)))
+                        
+                    } else if array[i] > 0.0 {
+                        
+                        redPath.move(to: CGPoint(x: Double(i), y: Double(trendView.bounds.height/2)))
+                        
+                    } else {
+                        
+                        greenPath.move(to: CGPoint(x: Double(i), y: Double(trendView.bounds.height/2)))
+                    }
+                    
+                }
+                
+                //Add line
+                if array[i] > 0.0 {
+                    
+                    redPath.addLine(to: CGPoint(x: Double(i), y: Double(trendView.bounds.height/2) - array[i]))
+                    
+                    if i + 1 < array.count && array[i + 1] <= 0.0 {
+                        
+                        redPath.addLine(to: CGPoint(x: Double(i+1), y: Double(trendView.bounds.height/2)))
+                    }
+                    
+                } else if array[i] == 0.0 {
+                    
+                    yellowPath.addLine(to: CGPoint(x: Double(i), y: Double(trendView.bounds.height/2)))
+                    
+                } else {
+                    
+                    greenPath.addLine(to: CGPoint(x: Double(i), y: Double(trendView.bounds.height/2) - array[i]))
+                    
+                    if i + 1 < array.count && array[i + 1] >= 0.0 {
+                        
+                        greenPath.addLine(to: CGPoint(x: Double(i+1), y: Double(trendView.bounds.height/2)))
+                    }
+                    
+                }
                 
             }
             
-            trendPath.addLine(to: CGPoint(x: 270, y: Double(trendView.bounds.height/2)))
             
         }
         
-        layer.path = trendPath.cgPath
+        redLayer.path = redPath.cgPath
         
-//        UIColor.blue.setStroke()
-//
-//        trendPath.lineWidth = 5
-//
-//        trendPath.stroke()
-//
-//        layer.fillColor = UIColor.red.cgColor
+        redLayer.strokeColor = UIColor.red.cgColor
         
-        layer.strokeColor = UIColor.red.cgColor
+        redLayer.lineWidth = 1
         
-        layer.lineWidth = 1
+        redLayer.fillColor = UIColor.red.withAlphaComponent(0.3).cgColor
         
-        layer.fillColor = UIColor.clear.cgColor
+        yellowLayer.path = yellowPath.cgPath
         
-        trendView.layer.addSublayer(layer)
+        yellowLayer.strokeColor = UIColor.yellow.cgColor
+        
+        yellowLayer.lineWidth = 1
+        
+        yellowLayer.fillColor = UIColor.clear.cgColor
+        
+        greenLayer.path = greenPath.cgPath
+
+        greenLayer.strokeColor = UIColor.green.cgColor
+        
+        greenLayer.lineWidth = 1
+        
+        greenLayer.fillColor = UIColor.clear.cgColor
+        
+        greenLayer.fillColor = UIColor.green.withAlphaComponent(0.3).cgColor
+
+        trendView.layer.addSublayer(redLayer)
+
+        trendView.layer.addSublayer(yellowLayer)
+
+        trendView.layer.addSublayer(greenLayer)
 
         
     }

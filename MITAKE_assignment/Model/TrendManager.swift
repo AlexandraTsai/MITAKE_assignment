@@ -65,8 +65,6 @@ class TrendManager {
             
             if let insertNum = Double(i.c) {
                 
-                print(insertNum)
-                
                 arrayC.append(insertNum)
             }
             
