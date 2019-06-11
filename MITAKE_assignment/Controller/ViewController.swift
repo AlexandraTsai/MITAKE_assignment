@@ -12,6 +12,10 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var trendView: UIView!
     
+    @IBOutlet weak var priceView: UIView!
+    
+    @IBOutlet weak var volumeView: UIView!
+    
     @IBOutlet weak var tpLabel: UILabel!
     
     @IBOutlet weak var cLabel: UILabel!
@@ -21,6 +25,14 @@ class ViewController: UIViewController {
     var trendManager = TrendManager(fileName: "trend_2201")
     
     var arrayC = [Double]()
+    
+    var arrayT = [Int]()
+    
+    var arrayH = [Double]()
+    
+    var arrayL = [Double]()
+    
+    var arrayV = [Int]()
     
     var trend: Trend? {
         
@@ -47,22 +59,34 @@ class ViewController: UIViewController {
         
         arrayC = trendManager.arrayC
         
+        arrayT = trendManager.arrayT
+        
+        arrayL = trendManager.arrayL
+        
+        arrayH = trendManager.arrayH
+        
+        arrayV = trendManager.arrayV
+        
         drawSquare()
 
         drawTrend()
+        
+        addPriceLabel()
+        
+        drawVolume()
         
     }
     
     func drawTrend() {
        
+        //Layer
         let redLayer = CAShapeLayer()
         
         let yellowLayer = CAShapeLayer()
         
         let greenLayer = CAShapeLayer()
-        
-        let trendPath = UIBezierPath()
-        
+       
+        //Path
         let redPath = UIBezierPath()
         
         let yellowPath = UIBezierPath()
@@ -74,25 +98,83 @@ class ViewController: UIViewController {
             guard let tp = Double(trend.root.tp),
                 let bp = Double(trend.root.bp) else { return }
             
-            let ratio = Double(view.bounds.height)/(
+            let hRatio = Double(trendView.bounds.height)/(
                 tp - bp )
+            
+            guard let startTime = arrayT.first,
+                let endTime = arrayT.last else { return }
+            
+            let wRatio = Double(trendView.bounds.width)/Double(endTime - startTime + 1)
             
             let center = Double(trend.root.c)
             
-            let array = arrayC.map{ ($0 - center!) * ratio }
+            let arrayY = arrayC.map{ ($0 - center!) * hRatio }
             
-            trendPath.move(to: CGPoint(x: 0, y: Double(trendView.bounds.height/2)))
+            let arrayX = arrayT.map{ ( Double($0) * wRatio) }
             
-            for i in 0..<array.count {
+            if let (maxIndex, maxValue) = arrayH.enumerated().max(by: { $0.element < $1.element}) {
                 
-                //MOVE Path
+                var x = maxIndex * Int(wRatio)
+                
+                let y = (maxValue - center!) * hRatio
+                
+                if x - 20 < 0 {
+                    
+                    x = 0
+                    
+                } else if x + 20 > Int(trendView.bounds.width) {
+                    
+                    x -= 20
+                    
+                }
+                
+                let label = UILabel(frame: CGRect(x: x, y: Int(trendView.bounds.height/2) - Int(y) - 20 , width: 50, height: 20))
+                
+                label.font = UIFont(name: ".SFUIText", size: 13)
+                
+                label.text = String(maxValue)
+                
+                label.textColor = UIColor.white
+                
+                trendView.addSubview(label)
+            }
+            
+            if let (minIndex, minValue) = arrayL.enumerated().min(by: { $0.element < $1.element}) {
+                
+                var x = minIndex * Int(wRatio)
+                
+                let y = (minValue - center!) * hRatio
+                
+                if x - 20 < 0 {
+                    
+                    x = 0
+                }  else if x + 20 > Int(trendView.bounds.width) {
+                    
+                    x -= 20
+                    
+                }
+                
+                let label = UILabel(frame: CGRect(x: x, y: Int(trendView.bounds.height/2) + Int(y) + 20 , width: 50, height: 20))
+                
+                label.font = UIFont(name: ".SFUIText", size: 13)
+
+                label.text = String(minValue)
+
+                label.textColor = UIColor.white
+
+                trendView.addSubview(label)
+            }
+            
+            for i in 0..<arrayY.count {
+                
+                //MOVE Path in different situation
                 if i == 0 {
                 
-                    if array[i] > 0.0 {
+                    if arrayY[i] > 0.0 {
                         
                         redPath.move(to: CGPoint(x: 0, y: Double(trendView.bounds.height/2)))
                         
-                    } else if array[i] == 0.0 {
+                    } else if arrayY[i] == 0.0 {
                         
                         yellowPath.move(to: CGPoint(x: 0, y: Double(trendView.bounds.height/2)))
                         
@@ -101,57 +183,64 @@ class ViewController: UIViewController {
                         greenPath.move(to: CGPoint(x: 0, y: Double(trendView.bounds.height/2)))
                         
                     }
-                  
-                //MOVE Path again
-                } else if i != 0 && array[i - 1] * array[i] < 0.0 {
+                
+                } else if i != 0 && arrayY[i - 1] * arrayY[i] < 0.0 {
                    
-                    if array[i] > 0.0 {
+                    if arrayY[i] > 0.0 {
                         
-                        redPath.move(to: CGPoint(x: Double(i), y: Double(trendView.bounds.height/2)))
+                        redPath.move(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2)))
                         
                     } else {
                         
-                        greenPath.move(to: CGPoint(x: Double(i), y: Double(trendView.bounds.height/2)))
+                        greenPath.move(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2)))
                     }
                     
-                } else if i != 0 && array[i - 1] * array[i] == 0.0 {
+                } else if i != 0 && arrayY[i - 1] * arrayY[i] == 0.0 {
                     
-                    if array[i] == 0 && array[i-1] != 0.0 {
+                    if arrayY[i] == 0 && arrayY[i-1] != 0.0 {
                         
-                        yellowPath.move(to: CGPoint(x: Double(i), y: Double(trendView.bounds.height/2)))
+                        yellowPath.move(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2)))
                         
-                    } else if array[i] > 0.0 {
+                    } else if arrayY[i] > 0.0 {
                         
-                        redPath.move(to: CGPoint(x: Double(i), y: Double(trendView.bounds.height/2)))
+                        redPath.move(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2)))
                         
                     } else {
                         
-                        greenPath.move(to: CGPoint(x: Double(i), y: Double(trendView.bounds.height/2)))
+                        greenPath.move(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2)))
                     }
                     
                 }
                 
                 //Add line
-                if array[i] > 0.0 {
+                if arrayY[i] > 0.0 {
                     
-                    redPath.addLine(to: CGPoint(x: Double(i), y: Double(trendView.bounds.height/2) - array[i]))
+                    redPath.addLine(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2) - arrayY[i]))
                     
-                    if i + 1 < array.count && array[i + 1] <= 0.0 {
+                    if i + 1 < arrayY.count && arrayY[i + 1] <= 0.0 {
                         
-                        redPath.addLine(to: CGPoint(x: Double(i+1), y: Double(trendView.bounds.height/2)))
+                        redPath.addLine(to: CGPoint(x: arrayX[i+1], y: Double(trendView.bounds.height/2)))
+                        
+                    } else if i == arrayY.count - 1 {
+                        
+                        redPath.addLine(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2)))
                     }
                     
-                } else if array[i] == 0.0 {
+                } else if arrayY[i] == 0.0 {
                     
-                    yellowPath.addLine(to: CGPoint(x: Double(i), y: Double(trendView.bounds.height/2)))
+                    yellowPath.addLine(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2)))
                     
                 } else {
                     
-                    greenPath.addLine(to: CGPoint(x: Double(i), y: Double(trendView.bounds.height/2) - array[i]))
+                    greenPath.addLine(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2) - arrayY[i]))
                     
-                    if i + 1 < array.count && array[i + 1] >= 0.0 {
+                    if i + 1 < arrayY.count && arrayY[i + 1] >= 0.0 {
                         
-                        greenPath.addLine(to: CGPoint(x: Double(i+1), y: Double(trendView.bounds.height/2)))
+                        greenPath.addLine(to: CGPoint(x: arrayX[i+1], y: Double(trendView.bounds.height/2)))
+                        
+                    } else if i == arrayY.count - 1 {
+                        
+                        greenPath.addLine(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2)))
                     }
                     
                 }
@@ -161,6 +250,7 @@ class ViewController: UIViewController {
             
         }
         
+        //Set color for each path and layer
         redLayer.path = redPath.cgPath
         
         redLayer.strokeColor = UIColor.red.cgColor
@@ -187,6 +277,7 @@ class ViewController: UIViewController {
         
         greenLayer.fillColor = UIColor.green.withAlphaComponent(0.3).cgColor
 
+        //Add subLayer for trendView
         trendView.layer.addSublayer(redLayer)
 
         trendView.layer.addSublayer(yellowLayer)
@@ -198,10 +289,16 @@ class ViewController: UIViewController {
     
     func drawSquare() {
         
+        guard let startTime = arrayT.first,
+            let endTime = arrayT.last else { return }
+        
+        let section = (endTime - startTime + 1)/60
+        
         let squarePath = UIBezierPath()
         
         let squareLayer = CAShapeLayer()
         
+        //Draw border
         squarePath.move(to: CGPoint(x: 0, y: 0))
         
         squarePath.addLine(to: CGPoint(x: trendView.bounds.width, y: 0))
@@ -212,35 +309,28 @@ class ViewController: UIViewController {
         
         squarePath.close()
         
-        // 垂直線
-        squarePath.move(to: CGPoint(x: 60, y: 0))
-
-        squarePath.addLine(to: CGPoint(x: 60, y: trendView.bounds.height))
+        //垂直線
+        for i in 1...section {
+            
+            let x = 60 * i
+            
+            squarePath.move(to: CGPoint(x: x, y: 0))
+            
+            squarePath.addLine(to: CGPoint(x: CGFloat(x), y: trendView.bounds.height))
+            
+        }
         
-        squarePath.move(to: CGPoint(x: 120, y: 0))
-        
-        squarePath.addLine(to: CGPoint(x: 120, y: trendView.bounds.height))
-        
-        squarePath.move(to: CGPoint(x: 180, y: 0))
-        
-        squarePath.addLine(to: CGPoint(x: 180, y: trendView.bounds.height))
-
-        squarePath.move(to: CGPoint(x: 240, y: 0))
-        
-        squarePath.addLine(to: CGPoint(x: 240, y: trendView.bounds.height))
-        
-        // 水平線
-        squarePath.move(to: CGPoint(x: 0, y: 300/4))
-        
-        squarePath.addLine(to: CGPoint(x: trendView.bounds.width, y: 300/4))
-        
-        squarePath.move(to: CGPoint(x: 0, y: (300/4) * 2))
-        
-        squarePath.addLine(to: CGPoint(x: trendView.bounds.width, y: (300/4) * 2))
-        
-        squarePath.move(to: CGPoint(x: 0, y: (300/4) * 3))
-        
-        squarePath.addLine(to: CGPoint(x: trendView.bounds.width, y: (300/4) * 3))
+        //水平線
+        for i in 1...3 {
+            
+            let y = Int(trendView.bounds.height/4) * i
+            
+            squarePath.move(to: CGPoint(x: 0, y: y))
+            
+            squarePath.addLine(to: CGPoint(x: trendView.bounds.width, y: CGFloat(y)))
+            
+            
+        }
         
         squareLayer.path = squarePath.cgPath
         
@@ -251,6 +341,84 @@ class ViewController: UIViewController {
         squareLayer.backgroundColor = UIColor.clear.cgColor
         
         trendView.layer.addSublayer(squareLayer)
+        
+    }
+    
+    func addPriceLabel() {
+        
+        let height = bpLabel.bounds.height
+        
+        let middle1 = UILabel(frame: CGRect(x: 0,
+                                            y: priceView.bounds.height/4 - height/2,
+                                            width: priceView.bounds.width,
+                                            height: height))
+        
+        let middle2 = UILabel(frame: CGRect(x: 0,
+                                            y: 3*priceView.bounds.height/4 - height/2,
+                                            width: priceView.bounds.width,
+                                            height: height))
+        
+        middle1.textColor = UIColor.red
+        
+        middle2.textColor = UIColor.green
+        
+        if let tp = trend?.root.tp,
+            let c = trend?.root.c,
+            let bp = trend?.root.bp {
+            
+            guard let tp = Double(tp),
+                let c = Double(c),
+                let bp = Double(bp) else { return }
+            
+            let price1 = round(100 * (tp + c) / 2) / 100
+            
+            let price2 = round(100 * (bp + c) / 2) / 100
+            
+            middle1.text = "\(price1)"
+            
+            middle2.text = "\(price2)"
+         
+        }
+      
+        priceView.addSubview(middle1)
+        
+        priceView.addSubview(middle2)
+        
+    }
+    
+    func drawVolume() {
+        
+        let volumePath = UIBezierPath()
+        
+        let layer = CAShapeLayer()
+        
+        guard let max = arrayV.max(),
+            let startTime = arrayT.first,
+            let endTime = arrayT.last else { return }
+        
+        let yRatio = volumeView.bounds.height/CGFloat(max)
+        
+        let xRatio = Double(trendView.bounds.width)/Double(endTime - startTime + 1)
+        
+        let arrayX = arrayT.map{ ( Double($0) * xRatio) }
+        
+        let arrayY = arrayV.map{ Double($0) * Double(yRatio)}
+        
+        for i in 0..<arrayY.count {
+            
+            volumePath.move(to: CGPoint(x: Int(arrayX[i]), y: Int(volumeView.bounds.height)))
+            
+            volumePath.addLine(to: CGPoint(x: Int(arrayX[i]), y: Int(volumeView.bounds.height) - Int(arrayY[i])))
+            
+        }
+        
+        layer.strokeColor = UIColor(red: 85/255, green: 162/255, blue: 214/255, alpha: 1).cgColor
+        
+        layer.lineWidth = 0.6
+        
+        layer.path = volumePath.cgPath
+        
+        volumeView.layer.addSublayer(layer)
         
     }
     

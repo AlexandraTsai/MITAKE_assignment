@@ -19,6 +19,14 @@ class TrendManager {
             if let trend = trend {
                 
                 arrayC = insertAllC(from: trend)
+                
+                arrayT = insertAllT(from: trend)
+                
+                arrayL = insertAllL(from: trend)
+                
+                arrayH = insertAllH(from: trend)
+                
+                arrayV = insertAllV(from: trend)
             }
             
         }
@@ -26,6 +34,14 @@ class TrendManager {
     }
     
     var arrayC = [Double]()
+    
+    var arrayT = [Int]()
+    
+    var arrayH = [Double]()
+    
+    var arrayL = [Double]()
+    
+    var arrayV = [Int]()
     
     init(fileName: String) {
         
@@ -71,6 +87,86 @@ class TrendManager {
         }
         
         return arrayC
+        
+    }
+    
+    func insertAllT(from trend: Trend) -> [Int] {
+        
+        let tick = trend.root.tick
+        
+        var arrayT = [Int]()
+        
+        for i in tick {
+            
+            let insertNum = Int(i.t)
+            
+            if let insertNum = insertNum {
+                
+                arrayT.append(insertNum)
+            }
+            
+        }
+        
+        return arrayT
+        
+    }
+    
+    func insertAllL(from trend: Trend) -> [Double] {
+        
+        let tick = trend.root.tick
+        
+        var arrayL = [Double]()
+        
+        for i in tick {
+            
+            if let insertNum = Double(i.l) {
+                
+                arrayL.append(insertNum)
+            }
+            
+        }
+        
+        return arrayL
+        
+    }
+    
+    func insertAllH(from trend: Trend) -> [Double] {
+        
+        let tick = trend.root.tick
+        
+        var arrayH = [Double]()
+        
+        for i in tick {
+            
+            if let insertNum = Double(i.h) {
+                
+                arrayH.append(insertNum)
+            }
+            
+        }
+        
+        return arrayH
+        
+    }
+    
+    func insertAllV(from trend: Trend) -> [Int] {
+        
+        let tick = trend.root.tick
+        
+        var arrayV = [Int]()
+        
+        for i in tick {
+            
+            let insertNum = Int(i.v)
+            
+            if let insertNum = insertNum {
+                
+                arrayV.append(insertNum)
+            }
+            
+        }
+        
+        return arrayV
         
     }
     
