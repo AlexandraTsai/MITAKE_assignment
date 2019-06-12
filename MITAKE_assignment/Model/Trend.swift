@@ -34,4 +34,33 @@ struct Tick: Codable {
     var l: String
     var c: String
     var v: String
+    
+    func transform() -> TickNum {
+        
+        guard let t = Int(self.t),
+            let o = Double(self.o),
+            let h = Double(self.h),
+            let l = Double(self.l),
+            let c = Double(self.c),
+            let v = Int(self.v) else { return TickNum() }
+        
+        let tickNum = TickNum(t: t,
+                              o: o,
+                              h: h,
+                              l: l,
+                              c: c,
+                              v: v)
+       return tickNum
+    }
+}
+
+struct TickNum {
+    
+    var t: Int = 0
+    var o: Double = 0.0
+    var h: Double = 0.0
+    var l: Double = 0.0
+    var c: Double = 0.0
+    var v: Int = 0
+    
 }

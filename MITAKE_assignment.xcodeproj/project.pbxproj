@@ -16,6 +16,7 @@
 		A8654DF922AE25F60014BD87 /* Trend.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8654DF822AE25F60014BD87 /* Trend.swift */; };
 		A8654DFB22AE2D9F0014BD87 /* trend_2201.json in Resources */ = {isa = PBXBuildFile; fileRef = A8654DFA22AE2D9F0014BD87 /* trend_2201.json */; };
 		A8654DFF22AE42B10014BD87 /* TrendManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8654DFE22AE42B10014BD87 /* TrendManager.swift */; };
+		A8654E0622B0A27B0014BD87 /* ALTrendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8654E0522B0A27B0014BD87 /* ALTrendView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		A8654DF822AE25F60014BD87 /* Trend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trend.swift; sourceTree = "<group>"; };
 		A8654DFA22AE2D9F0014BD87 /* trend_2201.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = trend_2201.json; sourceTree = "<group>"; };
 		A8654DFE22AE42B10014BD87 /* TrendManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendManager.swift; sourceTree = "<group>"; };
+		A8654E0522B0A27B0014BD87 /* ALTrendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALTrendView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 		A8654DE222AE21DE0014BD87 /* MITAKE_assignment */ = {
 			isa = PBXGroup;
 			children = (
+				A8654E0022B0A0FC0014BD87 /* View */,
 				A8654DFD22AE3D350014BD87 /* Controller */,
 				A8654DFC22AE3D200014BD87 /* Model */,
 				A8654DE322AE21DE0014BD87 /* AppDelegate.swift */,
@@ -90,6 +93,14 @@
 				A8654DE522AE21DE0014BD87 /* ViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		A8654E0022B0A0FC0014BD87 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A8654E0522B0A27B0014BD87 /* ALTrendView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,6 +180,7 @@
 				A8654DEC22AE21DE0014BD87 /* MITAKE_assignment.xcdatamodeld in Sources */,
 				A8654DFF22AE42B10014BD87 /* TrendManager.swift in Sources */,
 				A8654DF922AE25F60014BD87 /* Trend.swift in Sources */,
+				A8654E0622B0A27B0014BD87 /* ALTrendView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

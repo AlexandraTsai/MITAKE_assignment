@@ -12,36 +12,7 @@ class TrendManager {
     
     var fileName: String
     
-    var trend: Trend? {
-        
-        didSet {
-            
-            if let trend = trend {
-                
-                arrayC = insertAllC(from: trend)
-                
-                arrayT = insertAllT(from: trend)
-                
-                arrayL = insertAllL(from: trend)
-                
-                arrayH = insertAllH(from: trend)
-                
-                arrayV = insertAllV(from: trend)
-            }
-            
-        }
-        
-    }
-    
-    var arrayC = [Double]()
-    
-    var arrayT = [Int]()
-    
-    var arrayH = [Double]()
-    
-    var arrayL = [Double]()
-    
-    var arrayV = [Int]()
+    var trend: Trend?
     
     init(fileName: String) {
         
@@ -49,7 +20,7 @@ class TrendManager {
         
     }
     
-    func readJsonFromFile() {
+    func getTrend() {
         
         if let path = Bundle.main.path(forResource: fileName, ofType: "json") {
             
@@ -167,6 +138,24 @@ class TrendManager {
         }
         
         return arrayV
+        
+    }
+    
+    func getTick() -> [TickNum] {
+        
+        var tickNum = [TickNum]()
+        
+        guard let tick = trend?.root.tick else { return tickNum }
+        
+        for i in tick {
+            
+            let tickToAppend = i.transform()
+         
+            tickNum.append(tickToAppend)
+            
+        }
+        
+        return tickNum
         
     }
     
