@@ -17,42 +17,9 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gIP-Yn-vz6">
-                                <rect key="frame" x="85" y="295" width="270" height="120"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="LaK-6d-XaA"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nER-Kl-zSv">
-                                <rect key="frame" x="46.5" y="295" width="33.5" height="120"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="369-aa-tFf">
-                                <rect key="frame" x="85" y="425" width="270" height="20"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="XBx-F5-X2B"/>
-                                </constraints>
-                            </view>
-                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="369-aa-tFf" firstAttribute="trailing" secondItem="gIP-Yn-vz6" secondAttribute="trailing" id="HRk-zq-qHX"/>
-                            <constraint firstItem="nER-Kl-zSv" firstAttribute="height" secondItem="gIP-Yn-vz6" secondAttribute="height" id="KCu-XO-jOM"/>
-                            <constraint firstItem="369-aa-tFf" firstAttribute="width" secondItem="gIP-Yn-vz6" secondAttribute="width" id="ZhR-tp-Rbh"/>
-                            <constraint firstItem="nER-Kl-zSv" firstAttribute="top" secondItem="gIP-Yn-vz6" secondAttribute="top" id="g3e-2G-pAD"/>
-                            <constraint firstItem="gIP-Yn-vz6" firstAttribute="leading" secondItem="nER-Kl-zSv" secondAttribute="trailing" constant="5" id="l80-TL-iLR"/>
-                            <constraint firstItem="369-aa-tFf" firstAttribute="top" secondItem="gIP-Yn-vz6" secondAttribute="bottom" constant="10" id="uJg-1p-Ddh"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <connections>
-                        <outlet property="timeView" destination="369-aa-tFf" id="Srr-Xu-aee"/>
-                        <outlet property="volumeLabelView" destination="nER-Kl-zSv" id="dvs-Sp-TtB"/>
-                        <outlet property="volumeView" destination="gIP-Yn-vz6" id="Aoq-kI-SQ8"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

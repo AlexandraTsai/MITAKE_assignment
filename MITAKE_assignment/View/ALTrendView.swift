@@ -8,12 +8,6 @@
 
 import UIKit
 
-protocol ALTrendViewDataSource {
-    
-    func trendView(_ trendVIew: ALTrendView, showTrend: Trend, tick: TickNum)
-    
-}
-
 class ALTrendView: UIView {
     
     var wRatio: Double = 1
