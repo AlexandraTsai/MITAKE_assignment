@@ -22,33 +22,38 @@ class ALTrendView: UIView {
 
     let trendView = UIView()
     
-    func showTrendWith(startTime: Int,
-                       endTime: Int,
-                       tp: Double,
-                       bp: Double,
-                       c: Double,
+    func showTrendWith(startTime: String,
+                       endTime: String,
+                       tp: String,
+                       bp: String,
+                       c: String,
                        tick: [TickNum]) {
         
+        guard let startTime = Int(startTime),
+            let endTime = Int(endTime),
+            let topPrice = Double(tp),
+            let btmPrice = Double(bp),
+            let center = Double(c) else { return }
+        
         addSubView()
+        
+        centerV = center
+        
+        tPrice = topPrice
+        
+        bPrice = btmPrice
        
-        centerV = c
-        
-        tPrice = tp
-        
-        bPrice = bp
-
         setupBackgroundWith(startTime, endTime)
         
         drawTrendWith(startTime,
                       endTime,
-                      tp,
-                      bp,
-                      c,
+                      topPrice,
+                      btmPrice,
                       tick)
         
         setupLabel(with: tick)
         
-        addPriceLabelWith(tp, bp)
+        addPriceLabelWith(tp, bp, c)
         
     }
     
@@ -67,7 +72,6 @@ class ALTrendView: UIView {
                        _ endTime: Int,
                        _ topPrice: Double,
                        _ btmPrice: Double,
-                       _ cPrice: Double,
                        _ tick: [TickNum]) {
         
         //Layer
@@ -324,7 +328,9 @@ class ALTrendView: UIView {
 
     }
     
-    func addPriceLabelWith(_ topPrice: Double, _ btmPrice: Double) {
+    func addPriceLabelWith(_ topPrice: String,
+                           _ btmPrice: String,
+                           _ cPrice: String) {
         
         let height = 20
         
@@ -343,7 +349,7 @@ class ALTrendView: UIView {
                                      height: height)
                 label.textColor = UIColor.white
                 label.backgroundColor = UIColor.red
-                label.text = "\(topPrice)"+"0"
+                label.text = topPrice
                 
             case 1:
                 
@@ -361,7 +367,7 @@ class ALTrendView: UIView {
                                      width: 45,
                                      height: height)
                 label.textColor = UIColor.white
-                label.text = "\(centerV)"+"0"
+                label.text = cPrice
                 
             case 3:
                 
@@ -380,7 +386,7 @@ class ALTrendView: UIView {
                                      height: height)
                 label.textColor = UIColor.white
                 label.backgroundColor = UIColor.green
-                label.text = "\(btmPrice)"+"0"
+                label.text = btmPrice
 
             default: break
                 
