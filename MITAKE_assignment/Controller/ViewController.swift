@@ -48,7 +48,14 @@ class ViewController: UIViewController {
         
         if let trend = trend {
            
-            alTrendView.showWith(trend: trend, tick: tick)
+//            alTrendView.showWith(trend: trend, tick: tick)
+            
+            alTrendView.showTrendWith(startTime: Int((trend.root.tick.first?.t)!)!,
+                                      endTime: Int(trend.root.tick.last!.t)!,
+                                      tp: Double(trend.root.tp)!,
+                          bp: Double(trend.root.bp)!,
+                          c: Double(trend.root.c)!,
+                          tick: tick)
 
         }
         

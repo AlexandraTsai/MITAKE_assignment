@@ -22,35 +22,33 @@ class ALTrendView: UIView {
 
     let trendView = UIView()
     
-    func showWith(trend: Trend, tick: [TickNum]) {
+    func showTrendWith(startTime: Int,
+                       endTime: Int,
+                       tp: Double,
+                       bp: Double,
+                       c: Double,
+                       tick: [TickNum]) {
         
         addSubView()
+       
+        centerV = c
         
-        if let startTime = tick.first?.t,
-            let endTime = tick.last?.t,
-            let tp = Double(trend.root.tp),
-            let bp = Double(trend.root.bp),
-            let c = Double(trend.root.c){
-            
-            centerV = c
-            
-            tPrice = tp
-            
-            bPrice = bp
-            
-            setupBackgroundWith(startTime, endTime)
-            
-            drawTrendWith(startTime,
-                          endTime,
-                          tp,
-                          bp,
-                          trend,
-                          tick)
-            
-            setupLabel(with: tick)
-            
-            addPriceLabel(with: trend)
-        }
+        tPrice = tp
+        
+        bPrice = bp
+
+        setupBackgroundWith(startTime, endTime)
+        
+        drawTrendWith(startTime,
+                      endTime,
+                      tp,
+                      bp,
+                      c,
+                      tick)
+        
+        setupLabel(with: tick)
+        
+        addPriceLabelWith(tp, bp)
         
     }
     
@@ -69,7 +67,7 @@ class ALTrendView: UIView {
                        _ endTime: Int,
                        _ topPrice: Double,
                        _ btmPrice: Double,
-                       _ trend: Trend,
+                       _ cPrice: Double,
                        _ tick: [TickNum]) {
         
         //Layer
@@ -272,8 +270,6 @@ class ALTrendView: UIView {
         
         if let max = tick.max(by: { $0.h < $1.h }) {
             
-            print(max)
-            
             var x = Int(Double(max.t) * wRatio)
             
             let y = (max.h - centerV) * hRatio
@@ -300,9 +296,7 @@ class ALTrendView: UIView {
         }
 
         if let min = tick.min(by: { $0.l < $1.l}) {
-            
-            print(min)
-
+           
             var x = Int(Double(min.t) * wRatio)
 
             let y = (min.l - centerV) * hRatio
@@ -330,7 +324,7 @@ class ALTrendView: UIView {
 
     }
     
-    func addPriceLabel(with trend: Trend) {
+    func addPriceLabelWith(_ topPrice: Double, _ btmPrice: Double) {
         
         let height = 20
         
@@ -349,7 +343,7 @@ class ALTrendView: UIView {
                                      height: height)
                 label.textColor = UIColor.white
                 label.backgroundColor = UIColor.red
-                label.text = trend.root.tp
+                label.text = "\(topPrice)"+"0"
                 
             case 1:
                 
@@ -367,7 +361,7 @@ class ALTrendView: UIView {
                                      width: 45,
                                      height: height)
                 label.textColor = UIColor.white
-                label.text = "\(centerV)"
+                label.text = "\(centerV)"+"0"
                 
             case 3:
                 
@@ -386,7 +380,7 @@ class ALTrendView: UIView {
                                      height: height)
                 label.textColor = UIColor.white
                 label.backgroundColor = UIColor.green
-                label.text = trend.root.bp
+                label.text = "\(btmPrice)"+"0"
 
             default: break
                 
