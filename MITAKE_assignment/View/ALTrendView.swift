@@ -157,11 +157,7 @@ class ALTrendView: UIView {
                 
             //Add line
             if arrayY[i] > 0.0 {
-                
-                print("add line")
-                print(arrayX[i])
-                print(i)
-                
+               
                 redPath.addLine(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2) - arrayY[i]))
                     
                 if i + 1 < arrayY.count && arrayY[i + 1] <= 0.0 {
@@ -170,8 +166,6 @@ class ALTrendView: UIView {
                         
                 } else if i == arrayY.count - 1 {
                     
-                    print(arrayX[i])
-                        
                     redPath.addLine(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2)))
                 }
                     

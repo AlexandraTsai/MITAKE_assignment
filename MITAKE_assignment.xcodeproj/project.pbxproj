@@ -82,8 +82,8 @@
 		A8654DFC22AE3D200014BD87 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				A8654DF822AE25F60014BD87 /* Trend.swift */,
 				A8654DFA22AE2D9F0014BD87 /* trend_2201.json */,
+				A8654DF822AE25F60014BD87 /* Trend.swift */,
 				A8654DFE22AE42B10014BD87 /* TrendManager.swift */,
 			);
 			path = Model;
