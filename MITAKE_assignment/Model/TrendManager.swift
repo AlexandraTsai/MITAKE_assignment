@@ -42,7 +42,7 @@ class TrendManager {
         
     }
     
-    func insertAllC(from trend: Trend) -> [Double] {
+    func getCenter(from trend: Trend) -> [Double] {
         
         let tick = trend.root.tick
         
@@ -61,7 +61,7 @@ class TrendManager {
         
     }
     
-    func insertAllT(from trend: Trend) -> [Int] {
+    func getTime(from trend: Trend) -> [Int] {
         
         let tick = trend.root.tick
         
@@ -82,7 +82,7 @@ class TrendManager {
         
     }
     
-    func insertAllL(from trend: Trend) -> [Double] {
+    func getLPrice(from trend: Trend) -> [Double] {
         
         let tick = trend.root.tick
         
@@ -101,7 +101,7 @@ class TrendManager {
         
     }
     
-    func insertAllH(from trend: Trend) -> [Double] {
+    func getHPrice(from trend: Trend) -> [Double] {
         
         let tick = trend.root.tick
         
@@ -120,7 +120,7 @@ class TrendManager {
         
     }
     
-    func insertAllV(from trend: Trend) -> [Int] {
+    func getVolume(from trend: Trend) -> [Int] {
         
         let tick = trend.root.tick
         

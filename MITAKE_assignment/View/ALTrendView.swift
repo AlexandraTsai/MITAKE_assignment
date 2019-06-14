@@ -42,6 +42,8 @@ class ALTrendView: UIView {
         tPrice = topPrice
         
         bPrice = btmPrice
+        
+        setupRatio(topPrice, btmPrice, startTime, endTime)
        
         setupBackgroundWith(startTime, endTime)
         
@@ -68,6 +70,19 @@ class ALTrendView: UIView {
         
     }
     
+    func setupRatio(_ topPrice: Double,
+                  _ btmPrice: Double,
+                  _ startTime: Int,
+                  _ endTime: Int) {
+        
+        //Ratio
+        hRatio = Double(trendView.bounds.height)/(
+            topPrice - btmPrice )
+        
+        wRatio = Double(trendView.bounds.width)/Double(endTime - startTime + 1)
+        
+    }
+    
     func drawTrendWith(_ startTime: Int,
                        _ endTime: Int,
                        _ topPrice: Double,
@@ -88,12 +103,6 @@ class ALTrendView: UIView {
         
         let greenPath = UIBezierPath()
         
-        //Ratio
-        hRatio = Double(trendView.bounds.height)/(
-                topPrice - btmPrice )
-        
-        wRatio = Double(trendView.bounds.width)/Double(endTime - startTime + 1)
-            
         let arrayY = tick.map{ ($0.c - centerV) * hRatio }
             
         let arrayX = tick.map{ ( Double($0.t) * wRatio) }
@@ -137,18 +146,22 @@ class ALTrendView: UIView {
                         
                 } else if arrayY[i] > 0.0 {
                         
-                    redPath.move(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2)))
+                    redPath.move(to: CGPoint(x: arrayX[i-1], y: Double(trendView.bounds.height/2)))
                         
-                } else {
+                } else if arrayY[i] < 0.0 {
                         
-                    greenPath.move(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2)))
+                    greenPath.move(to: CGPoint(x: arrayX[i-1], y: Double(trendView.bounds.height/2)))
                 }
                     
             }
                 
             //Add line
             if arrayY[i] > 0.0 {
-                    
+                
+                print("add line")
+                print(arrayX[i])
+                print(i)
+                
                 redPath.addLine(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2) - arrayY[i]))
                     
                 if i + 1 < arrayY.count && arrayY[i + 1] <= 0.0 {
@@ -156,6 +169,8 @@ class ALTrendView: UIView {
                     redPath.addLine(to: CGPoint(x: arrayX[i+1], y: Double(trendView.bounds.height/2)))
                         
                 } else if i == arrayY.count - 1 {
+                    
+                    print(arrayX[i])
                         
                     redPath.addLine(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2)))
                 }
@@ -163,7 +178,7 @@ class ALTrendView: UIView {
             } else if arrayY[i] == 0.0 {
                     
                 yellowPath.addLine(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2)))
-                    
+                
             } else {
                     
                greenPath.addLine(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2) - arrayY[i]))
