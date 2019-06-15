@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A84649EF22B5402500E1A8E7 /* ALView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84649EE22B5402500E1A8E7 /* ALView.swift */; };
 		A8654DE422AE21DE0014BD87 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8654DE322AE21DE0014BD87 /* AppDelegate.swift */; };
 		A8654DE622AE21DE0014BD87 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8654DE522AE21DE0014BD87 /* ViewController.swift */; };
 		A8654DE922AE21DE0014BD87 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A8654DE722AE21DE0014BD87 /* Main.storyboard */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A84649EE22B5402500E1A8E7 /* ALView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ALView.swift; sourceTree = "<group>"; };
 		A8654DE022AE21DE0014BD87 /* MITAKE_assignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MITAKE_assignment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8654DE322AE21DE0014BD87 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A8654DE522AE21DE0014BD87 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 			children = (
 				A8654E0522B0A27B0014BD87 /* ALTrendView.swift */,
 				A8654E0722B0D71D0014BD87 /* ALVolumeView.swift */,
+				A84649EE22B5402500E1A8E7 /* ALView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -180,6 +183,7 @@
 			files = (
 				A8654DE622AE21DE0014BD87 /* ViewController.swift in Sources */,
 				A8654DE422AE21DE0014BD87 /* AppDelegate.swift in Sources */,
+				A84649EF22B5402500E1A8E7 /* ALView.swift in Sources */,
 				A8654DEC22AE21DE0014BD87 /* MITAKE_assignment.xcdatamodeld in Sources */,
 				A8654DFF22AE42B10014BD87 /* TrendManager.swift in Sources */,
 				A8654DF922AE25F60014BD87 /* Trend.swift in Sources */,

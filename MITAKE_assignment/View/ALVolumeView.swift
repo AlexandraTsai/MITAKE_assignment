@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ALVolumeView: UIView {
+class ALVolumeView: ALView {
 
     var wRatio: Double = 1
     
@@ -30,7 +30,7 @@ class ALVolumeView: UIView {
             let endTime = tick.last?.t,
             let maxTick = tick.max(by: { $0.v < $1.v }){
     
-            drawBackground(startTime, endTime)
+            drawBackground(startTime, endTime, hSection: 2, on: volumeView)
             
             drawVolumeWith(startTime, endTime, tick)
             
@@ -91,59 +91,56 @@ class ALVolumeView: UIView {
     
     }
     
-    private func drawBackground(_ startTime: Int, _ endTime: Int) {
-        
-        let section = (endTime - startTime + 1)/60
-        
-        let squarePath = UIBezierPath()
-        
-        let squareLayer = CAShapeLayer()
-        
-        //Draw border
-        squarePath.move(to: CGPoint(x: 0, y: 0))
-        
-        squarePath.addLine(to: CGPoint(x: volumeView.bounds.width, y: 0))
-        
-        squarePath.addLine(to: CGPoint(x: volumeView.bounds.width, y: volumeView.bounds.height))
-        
-        squarePath.addLine(to: CGPoint(x: 0, y: volumeView.bounds.height))
-        
-        squarePath.close()
-        
-        //垂直線
-        for i in 1...section {
-            
-            let x = 60 * i
-            
-            squarePath.move(to: CGPoint(x: x, y: 0))
-            
-            squarePath.addLine(to: CGPoint(x: CGFloat(x), y: volumeView.bounds.height))
-            
-        }
-        
-        //水平線
-        for i in 1...2 {
-            
-            let y = Int(volumeView.bounds.height/3) * i
-            
-            squarePath.move(to: CGPoint(x: 0, y: y))
-            
-            squarePath.addLine(to: CGPoint(x: volumeView.bounds.width, y: CGFloat(y)))
-            
-            
-        }
-        
-        squareLayer.path = squarePath.cgPath
-        
-        squareLayer.strokeColor = UIColor.lightGray.withAlphaComponent(0.3).cgColor
-        
-        squareLayer.lineWidth = 1
-        
-        squareLayer.backgroundColor = UIColor.clear.cgColor
-        
-        volumeView.layer.addSublayer(squareLayer)
-        
-    }
+//    private func drawBackground(_ startTime: Int, _ endTime: Int) {
+//
+//        let section = (endTime - startTime + 1)/60
+//
+//        let squarePath = UIBezierPath()
+//
+//        let squareLayer = CAShapeLayer()
+//
+//        //Draw border
+//        squarePath.move(to: CGPoint(x: 0, y: 0))
+//
+//        squarePath.addLine(to: CGPoint(x: volumeView.bounds.width, y: 0))
+//
+//        squarePath.addLine(to: CGPoint(x: volumeView.bounds.width, y: volumeView.bounds.height))
+//
+//        squarePath.addLine(to: CGPoint(x: 0, y: volumeView.bounds.height))
+//
+//        squarePath.close()
+//
+//        //垂直線
+//        for i in 1...section {
+//
+//            let x = 60 * i
+//
+//            squarePath.move(to: CGPoint(x: x, y: 0))
+//
+//            squarePath.addLine(to: CGPoint(x: CGFloat(x), y: volumeView.bounds.height))
+//
+//        }
+//
+//        //水平線
+//        for i in 1...2 {
+//
+//            let y = Int(volumeView.bounds.height/3) * i
+//
+//            squarePath.move(to: CGPoint(x: 0, y: y))
+//
+//            squarePath.addLine(to: CGPoint(x: volumeView.bounds.width, y: CGFloat(y)))
+//
+//
+//        }
+//
+//        addSubLayer(squareLayer,
+//                    path: squarePath.cgPath,
+//                    lineWidth: 1,
+//                    strokeColor: UIColor.lightGray.withAlphaComponent(0.3).cgColor,
+//                    fillColor: UIColor.clear.cgColor,
+//                    on: volumeView)
+//
+//    }
 
     func addVolumeLabel() {
 

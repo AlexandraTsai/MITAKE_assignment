@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ALTrendView: UIView {
+class ALTrendView: ALView {
     
     var wRatio: Double = 1
     
@@ -44,8 +44,8 @@ class ALTrendView: UIView {
         bPrice = btmPrice
         
         setupRatio(topPrice, btmPrice, startTime, endTime)
-       
-        setupBackgroundWith(startTime, endTime)
+
+        drawBackground(startTime, endTime, hSection: 3, on: trendView)
         
         drawTrendWith(startTime,
                       endTime,
@@ -194,80 +194,27 @@ class ALTrendView: UIView {
         }
         
         //Set color for each path and layer
-        setup(redLayer,
+        addSubLayer(redLayer,
               path: redPath.cgPath,
               lineWidth: 1,
               strokeColor: UIColor.red.cgColor,
               fillColor: UIColor.red.withAlphaComponent(0.3).cgColor,
               on: trendView)
         
-        setup(yellowLayer,
+        addSubLayer(yellowLayer,
               path: yellowPath.cgPath,
               lineWidth: 1,
               strokeColor: UIColor.yellow.cgColor,
               fillColor: UIColor.yellow.withAlphaComponent(0.3).cgColor,
               on: trendView)
         
-        setup(greenLayer,
+        addSubLayer(greenLayer,
               path: greenPath.cgPath,
               lineWidth: 1,
               strokeColor: UIColor.green.cgColor,
               fillColor: UIColor.green.withAlphaComponent(0.3).cgColor,
               on: trendView)
 
-    }
-    
-    func setupBackgroundWith(_ startTime: Int, _ endTime: Int) {
-        
-        let squarePath = UIBezierPath()
-        
-        let squareLayer = CAShapeLayer()
-        
-        let section = (endTime - startTime + 1)/60
-        
-        //Draw border
-        squarePath.move(to: CGPoint(x: 0, y: 0))
-        
-        squarePath.addLine(to: CGPoint(x: trendView.bounds.width, y: 0))
-        
-        squarePath.addLine(to: CGPoint(x: trendView.bounds.width, y: trendView.bounds.height))
-        
-        squarePath.addLine(to: CGPoint(x: 0, y: trendView.bounds.height))
-        
-        squarePath.close()
-        
-        //垂直線
-        for i in 1...section {
-            
-            let x = 60 * i
-            
-            squarePath.move(to: CGPoint(x: x, y: 0))
-            
-            squarePath.addLine(to: CGPoint(x: CGFloat(x), y: trendView.bounds.height))
-            
-        }
-        
-        //水平線
-        for i in 1...3 {
-            
-            let y = Int(trendView.bounds.height/4) * i
-            
-            squarePath.move(to: CGPoint(x: 0, y: y))
-            
-            squarePath.addLine(to: CGPoint(x: trendView.bounds.width, y: CGFloat(y)))
-            
-        }
-        
-        squareLayer.path = squarePath.cgPath
-        
-        squareLayer.strokeColor = UIColor.lightGray.withAlphaComponent(0.3).cgColor
-        
-        squareLayer.lineWidth = 1
-        
-        squareLayer.backgroundColor = UIColor.clear.cgColor
-        
-        trendView.layer.addSublayer(squareLayer)
-        
     }
     
     func setupLabel(with tick: [TickNum]) {
@@ -396,25 +343,6 @@ class ALTrendView: UIView {
             
         }
 
-    }
-    
-    func setup(_ layer: CAShapeLayer,
-               path: CGPath,
-               lineWidth: CGFloat,
-               strokeColor: CGColor,
-               fillColor: CGColor,
-               on superView: UIView) {
-        
-        layer.path = path
-        
-        layer.strokeColor = strokeColor
-        
-        layer.lineWidth = lineWidth
-        
-        layer.fillColor = fillColor
-        
-        superView.layer.addSublayer(layer)
-        
     }
     
     func movePathToCenter(_ path: UIBezierPath,with x: Double) {
