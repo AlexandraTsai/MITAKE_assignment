@@ -191,39 +191,46 @@ class ALTrendView: UIView {
         }
         
         //Set color for each path and layer
-        redLayer.path = redPath.cgPath
+        setup(redLayer,
+              path: redPath.cgPath,
+              lineWidth: 1,
+              strokeColor: UIColor.red.cgColor,
+              fillColor: UIColor.red.withAlphaComponent(0.3).cgColor,
+              on: trendView)
         
-        redLayer.strokeColor = UIColor.red.cgColor
+        setup(yellowLayer,
+              path: yellowPath.cgPath,
+              lineWidth: 1,
+              strokeColor: UIColor.yellow.cgColor,
+              fillColor: UIColor.yellow.withAlphaComponent(0.3).cgColor,
+              on: trendView)
         
-        redLayer.lineWidth = 1
-        
-        redLayer.fillColor = UIColor.red.withAlphaComponent(0.3).cgColor
-        
-        yellowLayer.path = yellowPath.cgPath
-        
-        yellowLayer.strokeColor = UIColor.yellow.cgColor
-        
-        yellowLayer.lineWidth = 1
-        
-        yellowLayer.fillColor = UIColor.clear.cgColor
-        
-        greenLayer.path = greenPath.cgPath
-        
-        greenLayer.strokeColor = UIColor.green.cgColor
-        
-        greenLayer.lineWidth = 1
-        
-        greenLayer.fillColor = UIColor.clear.cgColor
-        
-        greenLayer.fillColor = UIColor.green.withAlphaComponent(0.3).cgColor
-        
-        //Add subLayer for trendView
-        trendView.layer.addSublayer(redLayer)
-        
-        trendView.layer.addSublayer(yellowLayer)
-        
-        trendView.layer.addSublayer(greenLayer)
+        setup(greenLayer,
+              path: greenPath.cgPath,
+              lineWidth: 1,
+              strokeColor: UIColor.green.cgColor,
+              fillColor: UIColor.green.withAlphaComponent(0.3).cgColor,
+              on: trendView)
 
+    }
+    
+    func setup(_ layer: CAShapeLayer,
+               path: CGPath,
+               lineWidth: CGFloat,
+               strokeColor: CGColor,
+               fillColor: CGColor,
+               on superView: UIView) {
+        
+        layer.path = path
+        
+        layer.strokeColor = strokeColor
+        
+        layer.lineWidth = lineWidth
+        
+        layer.fillColor = fillColor
+        
+        superView.layer.addSublayer(layer)
+        
     }
     
     func setupBackgroundWith(_ startTime: Int, _ endTime: Int) {
