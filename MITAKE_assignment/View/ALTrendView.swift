@@ -115,42 +115,45 @@ class ALTrendView: UIView {
                     
                 if arrayY[i] > 0.0 {
                         
-                    redPath.move(to: CGPoint(x: 0, y: Double(trendView.bounds.height/2)))
+                    movePathToCenter(redPath, with: 0)
                         
                 } else if arrayY[i] == 0.0 {
                         
-                    yellowPath.move(to: CGPoint(x: 0, y: Double(trendView.bounds.height/2)))
+                    movePathToCenter(yellowPath, with: 0)
+
                         
                 } else {
                         
-                    greenPath.move(to: CGPoint(x: 0, y: Double(trendView.bounds.height/2)))
-                        
+                   movePathToCenter(greenPath, with: 0)
                 }
                     
             } else if i != 0 && arrayY[i - 1] * arrayY[i] < 0.0 {
                     
                 if arrayY[i] > 0.0 {
                         
-                    redPath.move(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2)))
+                    movePathToCenter(redPath, with: arrayX[i])
+
                         
                 } else {
-                        
-                    greenPath.move(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2)))
+                    
+                    movePathToCenter(greenPath, with: arrayX[i])
+
                 }
                     
             } else if i != 0 && arrayY[i - 1] * arrayY[i] == 0.0 {
                     
                 if arrayY[i] == 0 && arrayY[i-1] != 0.0 {
-                        
-                    yellowPath.move(to: CGPoint(x: arrayX[i], y: Double(trendView.bounds.height/2)))
+                    
+                    movePathToCenter(yellowPath, with: arrayX[i])
                         
                 } else if arrayY[i] > 0.0 {
-                        
-                    redPath.move(to: CGPoint(x: arrayX[i-1], y: Double(trendView.bounds.height/2)))
+                    
+                    movePathToCenter(redPath, with: arrayX[i-1])
                         
                 } else if arrayY[i] < 0.0 {
-                        
-                    greenPath.move(to: CGPoint(x: arrayX[i-1], y: Double(trendView.bounds.height/2)))
+                    
+                    movePathToCenter(greenPath, with: arrayX[i-1])
+
                 }
                     
             }
@@ -212,25 +215,6 @@ class ALTrendView: UIView {
               fillColor: UIColor.green.withAlphaComponent(0.3).cgColor,
               on: trendView)
 
-    }
-    
-    func setup(_ layer: CAShapeLayer,
-               path: CGPath,
-               lineWidth: CGFloat,
-               strokeColor: CGColor,
-               fillColor: CGColor,
-               on superView: UIView) {
-        
-        layer.path = path
-        
-        layer.strokeColor = strokeColor
-        
-        layer.lineWidth = lineWidth
-        
-        layer.fillColor = fillColor
-        
-        superView.layer.addSublayer(layer)
-        
     }
     
     func setupBackgroundWith(_ startTime: Int, _ endTime: Int) {
@@ -414,4 +398,27 @@ class ALTrendView: UIView {
 
     }
     
+    func setup(_ layer: CAShapeLayer,
+               path: CGPath,
+               lineWidth: CGFloat,
+               strokeColor: CGColor,
+               fillColor: CGColor,
+               on superView: UIView) {
+        
+        layer.path = path
+        
+        layer.strokeColor = strokeColor
+        
+        layer.lineWidth = lineWidth
+        
+        layer.fillColor = fillColor
+        
+        superView.layer.addSublayer(layer)
+        
+    }
+    
+    func movePathToCenter(_ path: UIBezierPath,with x: Double) {
+        
+        path.move(to: CGPoint(x: x, y: Double(trendView.bounds.height/2)))
+    }
 }
